@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class YamlParsingTest {
@@ -55,11 +56,11 @@ public class YamlParsingTest {
     }
 
     private static void sourceSMLLib(String repo) throws IOException {
-        var zipFile = new File(OUTPUT_DIR, "%s-repo.zip".formatted(repo));
+        var zipFile = new File(OUTPUT_DIR, format("%s-repo.zip", repo));
         if (!zipFile.exists()) {
             zipFile.getParentFile().mkdirs();
             downloadFile(
-                    "https://github.com/semanticdatalayer/%s/archive/refs/heads/main.zip".formatted(repo),
+                    format("https://github.com/semanticdatalayer/%s/archive/refs/heads/main.zip", repo),
                     zipFile
             );
         }
@@ -67,7 +68,7 @@ public class YamlParsingTest {
     }
 
     private void parseAllInFolder(String repo, String folder, Class<?> requiredType) throws IOException {
-        var packageName = "%s-main".formatted(repo);
+        var packageName = format("%s-main", repo);
         Path calculationsDir = Paths.get(EXTRACT_DIR.getAbsolutePath(), packageName, folder);
         if (!Files.isDirectory(calculationsDir)) {
             throw new IllegalArgumentException("folder not found: " + calculationsDir);
@@ -91,9 +92,9 @@ public class YamlParsingTest {
             Object parsed = mapper.readValue(yamlPath.toFile(), requiredType);
 
             // Validate the parsed object
-            assertNotNull(parsed, "Parsed %s object should not be null for file: %s".formatted(typeName, yamlPath));
+            assertNotNull(parsed, format("Parsed %s object should not be null for file: %s", typeName, yamlPath));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to parse file: %s".formatted(yamlPath), e);
+            throw new RuntimeException(format("Failed to parse file: %s", yamlPath), e);
         }
     }
 

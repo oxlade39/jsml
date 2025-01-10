@@ -3,6 +3,8 @@ package com.github.oxlade39.jsml;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import static java.lang.String.format;
+
 public enum CalculationMethod {
     AVERAGE("average"),
     COUNT_DISTINCT("count distinct"),
@@ -37,7 +39,7 @@ public enum CalculationMethod {
                 return s;
             }
         }
-        throw new IllegalArgumentException("Unknown calculation method type: '%s'".formatted(value));
+        throw new IllegalArgumentException(format("Unknown calculation method type: '%s'", value));
     }
 
 }

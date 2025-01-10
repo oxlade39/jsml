@@ -35,7 +35,7 @@ public class YamlParsingTest {
         );
     }
 
-    static Stream<Arguments> smlTypes() {
+    public static Stream<Arguments> smlTypes() {
         return repos().flatMap(repo ->
                 Stream.of(
                     Arguments.of(repo, "calculations", Calculation.class),
@@ -50,7 +50,7 @@ public class YamlParsingTest {
 
     @ParameterizedTest
     @MethodSource("smlTypes")
-    void testParsing(String repo, String folder, Class<?> type) throws IOException {
+    public void testParsing(String repo, String folder, Class<?> type) throws IOException {
         sourceSMLLib(repo);
         parseAllInFolder(repo, folder, type);
     }

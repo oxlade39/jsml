@@ -1,24 +1,33 @@
-name: Java CI with Maven
+name: Java CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        java-version: [11, 17, 23]
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 23
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK (${{ matrix.java-version }})
         uses: actions/setup-java@v3
         with:
-          java-version: '23'
-          distribution: 'temurin'
-          cache: maven
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+          java-version: ${{ matrix.java-version }}
+          distribution: 'corretto'
 
-      - name: Run tests with Maven
-        run: mvn -B test --file pom.xml
+      - name: Build (${{ matrix.java-version }})
+        run: mvn -B clean install -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+
+      - name: Test (${{ matrix.java-version }})
+        run: mvn -B test -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}

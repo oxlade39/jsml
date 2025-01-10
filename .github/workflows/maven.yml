@@ -27,7 +27,7 @@ jobs:
           distribution: 'corretto'
 
       - name: Build (${{ matrix.java-version }})
-        run: mvn clean install -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+        run: mvn -B clean install -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
 
       - name: Test (${{ matrix.java-version }})
-        run: mvn test -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+        run: mvn -B test -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}

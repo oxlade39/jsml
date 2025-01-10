@@ -20,11 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK ${{ matrix.java-version }}
+      - name: Set up JDK (${{ matrix.java-version }})
         uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java-version }}
           distribution: 'corretto'
 
-      - name: Build with Maven
+      - name: Build (${{ matrix.java-version }})
         run: mvn clean install -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+
+      - name: Test (${{ matrix.java-version }})
+        run: mvn test -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
